@@ -5,7 +5,8 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 //routes
-const userRoutes = require("./routers/user");
+const adminRoutes = require("./routers/admin/auth");
+const authRoutes = require("./routers/auth");
 
 //environment variable or you can sya constants
 env.config();
@@ -33,7 +34,8 @@ mongoose
 //   });
 
 app.use(express.json());
-app.use("/api", userRoutes);
+app.use("/api", adminRoutes);
+app.use("/api", authRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server s running on port ${process.env.PORT}`);
