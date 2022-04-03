@@ -1,5 +1,5 @@
-const User = require("../../models/user");
-const jwt = require("jsonwebtoken");
+const User = require("../models/user");
+const { sign, verify } = require("jsonwebtoken");
 
 exports.signup = (req, res) => {
   User.findOne({ email: req.body.email }).exec((error, user) => {
@@ -37,12 +37,11 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
-
   User.findOne({ email: req.body.email }).exec((error, user) => {
     if (error) return res.status(400).json({ error });
     if (user) {
       if (user.authenticate(req.body.password)) {
-        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+        const token = sign({ _id: user._id }, process.env.JWT_SECRET, {
           expiresIn: "1h",
         });
         const { _id, firstName, lastName, email, role, fullName, username } =
@@ -72,7 +71,7 @@ exports.signin = (req, res) => {
 
 exports.requireSignin = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
-  const user = jwt.verify(token, process.env.JWT_SECRET);
+  const user = verify(token, process.env.JWT_SECRET);
   req.user = user;
   console.log(user);
   next();
