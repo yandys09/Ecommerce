@@ -5,8 +5,9 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 //routes
-const adminRoutes = require("./routers/admin/auth");
-const authRoutes = require("./routers/auth");
+const adminRoutes = require("./routes/admin/auth");
+const authRoutes = require("./routes/auth");
+const categoryRoutes = require("./routes/category");
 
 //environment variable or you can sya constants
 env.config();
@@ -37,6 +38,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/api", adminRoutes);
 app.use("/api", authRoutes);
+app.use("/api", categoryRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server s running on port ${process.env.PORT}`);
