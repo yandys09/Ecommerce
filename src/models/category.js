@@ -18,4 +18,4 @@ parentId: {
 
 }, { timestamps: true });
 
-module.exports = mongoose.Schema("Category", categorySchema);
+module.exports = mongoose.model("Category", categorySchema);
